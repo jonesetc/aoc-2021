@@ -1,0 +1,19 @@
+{
+  "name": "aoc-2021",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonesetc/aoc-2021.git"
+  },
+  "author": "Kyle Jones",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonesetc/aoc-2021/issues"
+  },
+  "homepage": "https://github.com/jonesetc/aoc-2021#readme",
+  "dependencies": { },
+  "devDependencies": {
+    "lerna": "^4.0.0",
+    "@cloudflare/wrangler": "^1.19.5"
+  }
+}
