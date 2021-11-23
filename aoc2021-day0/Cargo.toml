@@ -1,0 +1,15 @@
+[package]
+name = "aoc2021-day0"
+version = "0.1.0"
+authors = ["Kyle Jones"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+worker = "^0.0.7"
+utils = { path = "../utils", version = "0.1.0" }
+
+[profile.release]
+opt-level = "s"

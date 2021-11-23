@@ -15,13 +15,19 @@ if [[ -z "$1" ]]; then
         "example: $0 1"
 fi
 
-if [[ -e "$base_path/../packages/day$1" ]]; then
+if [[ -e "$base_path/../aoc2021-day$1" ]]; then
     terminate "Package for day '$1' already exists"
 fi
 
 (
-    cd "$base_path/../packages"
-    npx wrangler generate "day$1"
-    cd "day$1"
-    echo "$AOC_SESSION" | npx wrangler secret put AOC_SESSION
+    cd "$base_path/.."
+    cp -R "aoc2021-day0" "aoc2021-day$1"
+    sed -i '' "s/\"utils\"/\"aoc2021-day$1\",\n    \"utils\"/g" Cargo.toml
+    cd "aoc2021-day$1"
+    sed -i '' "s/day0/day$1/g" Cargo.toml
+    sed -i '' "s/day0/day$1/g" wrangler.toml
+    sed -i '' "s/\"0\"/\"$1\"/g" src/lib.rs
+    wrangler build
+    echo "$AOC_SESSION" | wrangler secret put AOC_SESSION
+    wrangler publish
 )
