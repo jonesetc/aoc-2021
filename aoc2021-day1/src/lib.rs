@@ -1,11 +1,12 @@
-use std::collections::{HashMap, HashSet};
-
+use console_error_panic_hook;
 use worker::*;
 
 use utils;
 
 #[event(fetch)]
 pub async fn main(req: Request, env: Env) -> Result<Response> {
+    console_error_panic_hook::set_once();
+
     let router = Router::new();
     router
         .get_async("/", index)
@@ -22,49 +23,29 @@ async fn index(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Re
 }
 
 async fn part1(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Response> {
-    let input = utils::get_file_for_day(&utils::get_aoc_session(&req, &ctx), "1").await;
-    let answer = input
+    let answer = utils::get_file_for_day(&utils::get_aoc_session(&req, &ctx), "1")
+        .await
+        .trim()
         .split("\n")
         .map(|line| line.parse::<u64>().expect("Non-integer value encountered"))
-        .scan(HashSet::new(), |seen, curr| {
-            let compliment: u64 = 2020 - curr;
-            if seen.contains(&compliment) {
-                Some(curr * compliment)
-            } else {
-                seen.insert(curr);
-                Some(0)
-            }
-        })
-        .filter(|&answer| answer != 0)
-        .nth(0)
-        .expect("No answer was found");
+        .collect::<Vec<u64>>()
+        .windows(2)
+        .filter(|pair| pair[1] > pair[0])
+        .count();
 
     Response::ok(format!("{}", answer))
 }
 
 async fn part2(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Response> {
-    let input = utils::get_file_for_day(&utils::get_aoc_session(&req, &ctx), "1").await;
-    let answer = input
+    let answer = utils::get_file_for_day(&utils::get_aoc_session(&req, &ctx), "1")
+        .await
+        .trim()
         .split("\n")
         .map(|line| line.parse::<u64>().expect("Non-integer value encountered"))
-        .scan(
-            (HashSet::new(), HashMap::new()),
-            |(seen, small_pairs), curr| {
-                let compliment: u64 = 2020 - curr;
-                if small_pairs.contains_key(&compliment) {
-                    Some(curr * small_pairs[&compliment])
-                } else {
-                    seen.iter().for_each(|prev| {
-                        small_pairs.insert(prev + curr, prev * curr);
-                    });
-                    seen.insert(curr);
-                    Some(0)
-                }
-            },
-        )
-        .filter(|&answer| answer != 0)
-        .nth(0)
-        .expect("No answer was found");
+        .collect::<Vec<u64>>()
+        .windows(4)
+        .filter(|quad| quad[1] + quad[2] + quad[3] > quad[0] + quad[1] + quad[2])
+        .count();
 
     Response::ok(format!("{}", answer))
 }

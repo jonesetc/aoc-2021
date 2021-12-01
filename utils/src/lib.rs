@@ -21,7 +21,7 @@ pub async fn get_file_for_day(session: &str, day: &str) -> String {
 
     Fetch::Request(
         Request::new_with_init(
-            &format!("https://adventofcode.com/2020/day/{}/input", day),
+            &format!("https://adventofcode.com/2021/day/{}/input", day),
             RequestInit::new().with_headers(request_headers),
         )
         .expect("Couldn't build request for day's input"),
@@ -32,4 +32,6 @@ pub async fn get_file_for_day(session: &str, day: &str) -> String {
     .text()
     .await
     .expect("Couldn't unwrap day's input")
+    .trim()
+    .to_string()
 }

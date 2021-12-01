@@ -2,10 +2,6 @@
 
 An attempt to get Advent of Code running in cloudflare workers. The code is written in rust and built/deployed with wrangler.
 
-# Note
-
-For the moment this is actually targeting AOC 2020 so that I could get a real test going and validate the idea works. When AOC2021 starts all of that will swap over and the day 1 worker will be replaced with the real solution.
-
 # Where are these running?
 
 These (at the time of writing at least), are running on my cloudflare dev subdomain. Each day is a single worker with 3 routes (using the day 1 as an example):

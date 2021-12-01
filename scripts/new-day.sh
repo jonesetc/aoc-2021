@@ -25,6 +25,7 @@ fi
     sed -i '' "s/\"utils\"/\"aoc2021-day$1\",\n    \"utils\"/g" Cargo.toml
     cd "aoc2021-day$1"
     sed -i '' "s/day0/day$1/g" Cargo.toml
+    sed -i '' "s/day 0/day $1/g" Cargo.toml
     sed -i '' "s/day0/day$1/g" wrangler.toml
     sed -i '' "s/\"0\"/\"$1\"/g" src/lib.rs
     wrangler build

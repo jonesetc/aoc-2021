@@ -3,3 +3,6 @@ members = [
     "aoc2021-day1",
     "utils"
 ]
+
+[profile.release]
+opt-level = "s"
