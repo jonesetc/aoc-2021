@@ -7,8 +7,7 @@ use utils;
 pub async fn main(req: Request, env: Env) -> Result<Response> {
     console_error_panic_hook::set_once();
 
-    let router = Router::new();
-    router
+    Router::new()
         .get_async("/", index)
         .get_async("/1", part1)
         .get_async("/1/", part1)
@@ -19,14 +18,13 @@ pub async fn main(req: Request, env: Env) -> Result<Response> {
 }
 
 async fn index(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Response> {
-    Response::ok(utils::get_file_for_day(&utils::get_aoc_session(&req, &ctx), "1").await)
+    Response::ok(utils::get_input(&req, &ctx, "1").await)
 }
 
 async fn part1(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Response> {
-    let answer = utils::get_file_for_day(&utils::get_aoc_session(&req, &ctx), "1")
+    let answer = utils::get_input(&req, &ctx, "1")
         .await
-        .trim()
-        .split("\n")
+        .lines()
         .map(|line| line.parse::<u64>().expect("Non-integer value encountered"))
         .collect::<Vec<u64>>()
         .windows(2)
@@ -37,10 +35,9 @@ async fn part1(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Re
 }
 
 async fn part2(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Response> {
-    let answer = utils::get_file_for_day(&utils::get_aoc_session(&req, &ctx), "1")
+    let answer = utils::get_input(&req, &ctx, "1")
         .await
-        .trim()
-        .split("\n")
+        .lines()
         .map(|line| line.parse::<u64>().expect("Non-integer value encountered"))
         .collect::<Vec<u64>>()
         .windows(4)

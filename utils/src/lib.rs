@@ -2,7 +2,11 @@ use std::{borrow::Cow, collections::HashMap};
 
 use worker::*;
 
-pub fn get_aoc_session(req: &Request, ctx: &RouteContext<()>) -> String {
+pub async fn get_input(req: &Request, ctx: &RouteContext<()>, day: &str) -> String {
+    get_file_for_day(&get_aoc_session(req, ctx), day).await
+}
+
+fn get_aoc_session(req: &Request, ctx: &RouteContext<()>) -> String {
     req.url()
         .expect("No URL found")
         .query_pairs()
@@ -13,7 +17,7 @@ pub fn get_aoc_session(req: &Request, ctx: &RouteContext<()>) -> String {
         .expect("No AOC session available")
 }
 
-pub async fn get_file_for_day(session: &str, day: &str) -> String {
+async fn get_file_for_day(session: &str, day: &str) -> String {
     let mut request_headers = Headers::new();
     request_headers
         .append("Cookie", &format!("session={}", session))
@@ -32,6 +36,4 @@ pub async fn get_file_for_day(session: &str, day: &str) -> String {
     .text()
     .await
     .expect("Couldn't unwrap day's input")
-    .trim()
-    .to_string()
 }

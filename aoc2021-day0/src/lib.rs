@@ -4,8 +4,7 @@ use utils;
 
 #[event(fetch)]
 pub async fn main(req: Request, env: Env) -> Result<Response> {
-    let router = Router::new();
-    router
+    Router::new()
         .get_async("/", index)
         .get_async("/1", part1)
         .get_async("/1/", part1)
@@ -16,10 +15,7 @@ pub async fn main(req: Request, env: Env) -> Result<Response> {
 }
 
 async fn index(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Response> {
-    Response::ok(utils::get_file_for_day(
-        &utils::get_aoc_session(&req, &ctx),
-        "0",
-    ).await)
+    Response::ok(utils::get_input(&req, &ctx, "0").await)
 }
 
 async fn part1(req: worker::Request, ctx: worker::RouteContext<()>) -> Result<Response> {
