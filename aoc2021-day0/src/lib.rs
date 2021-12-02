@@ -4,6 +4,8 @@ use utils;
 
 #[event(fetch)]
 pub async fn main(req: Request, env: Env) -> Result<Response> {
+    console_error_panic_hook::set_once();
+
     Router::new()
         .get_async("/", index)
         .get_async("/1", part1)
