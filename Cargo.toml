@@ -2,6 +2,7 @@
 members = [
     "aoc2021-day1",
     "aoc2021-day2",
+    "aoc2021-day3",
     "utils"
 ]
 
