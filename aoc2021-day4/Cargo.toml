@@ -1,0 +1,16 @@
+[package]
+name = "aoc2021-day4"
+version = "0.1.0"
+authors = ["Kyle Jones"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/jonesetc/aoc-2021"
+description = "Advent of Code day 4 cloudflare worker"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+worker = "^0.0.7"
+console_error_panic_hook = "^0.1.6"
+utils = { path = "../utils", version = "0.1.0" }
